@@ -14,15 +14,11 @@ class WebSecurityConfig {
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http.csrf { it.disable() }
-
-        http.authorizeHttpRequests {
-            it.anyRequest().authenticated()
-        }
-
-        http.oauth2ResourceServer { it.jwt(Customizer.withDefaults()) }
-
-        http.sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+        http
+            .csrf { it.disable() }
+            .authorizeHttpRequests { it.anyRequest().permitAll() }
+            .oauth2ResourceServer { it.jwt(Customizer.withDefaults()) }
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
 
         return http.build()
     }
